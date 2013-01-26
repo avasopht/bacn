@@ -1,8 +1,6 @@
 package bacn;
 
-public class Prim implements Comparable<Prim>{
-  public <T extends Comparable<T>> Prim setTo(Object value) { mValue = value; return this; }
-  public Object get() { return mValue; }
+public class Prim implements Comparable<Prim> {
   
   private enum ValueType {
     INVALID,
@@ -17,9 +15,33 @@ public class Prim implements Comparable<Prim>{
   public Prim() {}
   
   public Prim(Object value) {
-    mValue = value;
+    setTo(value);
   }
   
+  public Prim setTo(Object value) {
+    if(mValue != null) {
+      assert(value.getClass().isPrimitive()) : "Only primitive types should be stores, such as integers, shorts, floats, etc.";
+      
+      // Safely convert the object to its string value if it is not a primitive.
+      if(value.getClass().isPrimitive()) {
+        value = value.toString();
+      }
+      
+      // Convert shorts to integer valus.
+      if(value.getClass() == Short.class) {
+        value = new Integer((Short) value);
+      }
+      
+      // Convert bytes to integer values.
+      if(value.getClass() == Byte.class) {
+        value = new Integer((Byte) value);
+      }
+    }
+    
+    mValue = value;
+    return this;
+  }
+
   public String asString() {
     if(hasString()) {
       return (String)mValue;
@@ -160,8 +182,8 @@ public class Prim implements Comparable<Prim>{
       return calculateNullValueComparison(this, rhs);
     }
     
-    if(eitherValueIsNull(get(), rhs.get())) {
-      return calculateNullValueComparison(get(), rhs.get());
+    if(eitherValueIsNull(mValue, rhs.mValue)) {
+      return calculateNullValueComparison(mValue, rhs.mValue);
     }
 
     boolean haveDifferentValueType = getValueType() != rhs.getValueType();

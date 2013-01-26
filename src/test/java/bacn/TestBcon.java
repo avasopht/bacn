@@ -7,7 +7,7 @@ public class TestBcon {
   private static interface MessageAboutUser<T extends MessageAboutUser<T>> extends Bcon {
     static class Impl extends BconAdapter implements MessageAboutUser<Impl> {
       
-      Prim mUserId = member("userId");
+      private Prim mUserId = member("userId");
 
       @Override
       public String userId() {
@@ -56,6 +56,7 @@ public class TestBcon {
   @Test
   public void testBcon() {
     String userId = "Karen";
+    
     UserLeftRoom userLeftRoom = new UserLeftRoom.Impl().setUserId(userId);
     Assert.assertEquals(userId, userLeftRoom.userId());
   }
@@ -65,9 +66,10 @@ public class TestBcon {
     String firstUser = "Michael";
     String secondUser = "John";
     
-    
+    // Check equality between two unique UserLeftRoom.Impl() objects, but with the same data.
     Assert.assertEquals(new UserLeftRoom.Impl().setUserId(firstUser),
         new UserLeftRoom.Impl().setUserId(firstUser));
+    
     Assert.assertFalse(new UserLeftRoom.Impl().setUserId(firstUser).equals(
         new UserLeftRoom.Impl().setUserId(secondUser)));
     
