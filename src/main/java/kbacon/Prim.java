@@ -11,7 +11,7 @@ public class Prim<T> {
   }
   
   public String asString() {
-    if(isString()) {
+    if(hasString()) {
       return (String)mValue;
     }
     return null;
@@ -22,7 +22,7 @@ public class Prim<T> {
   }
   
   public Integer asInteger() {
-    if(isInteger()) {
+    if(hasInteger()) {
       return (Integer)mValue;
     }
     
@@ -30,7 +30,7 @@ public class Prim<T> {
   }
   
   public Long asLong() {
-    if(isLong()) {
+    if(hasLong()) {
       return (Long) mValue;
     }
     
@@ -38,7 +38,7 @@ public class Prim<T> {
   }
   
   public Double asDouble() {
-    if(isDouble()) {
+    if(hasDouble()) {
       return (Double) mValue;
     }
     
@@ -46,7 +46,7 @@ public class Prim<T> {
   }
   
   public Float asFloat() {
-    if(isFloat()) {
+    if(hasFloat()) {
       return (Float) mValue;
     }
     
@@ -54,7 +54,7 @@ public class Prim<T> {
   }
   
   public Boolean asBoolean() {
-    if(isBoolean()) {
+    if(hasBoolean()) {
       return (Boolean) mValue;
     }
     
@@ -65,31 +65,31 @@ public class Prim<T> {
     return mValue != null;
   }
   
-  public boolean isString() {
-    return is(String.class);
+  public boolean hasString() {
+    return has(String.class);
   }
   
-  public boolean isInteger() {
-    return is(Integer.class);
+  public boolean hasInteger() {
+    return has(Integer.class);
   }
   
-  public boolean isFloat() {
-    return is(Float.class);
+  public boolean hasFloat() {
+    return has(Float.class);
   }
   
-  public boolean isDouble() {
-    return is(Double.class);
+  public boolean hasDouble() {
+    return has(Double.class);
   }
   
-  public boolean isLong() {
-    return is(Long.class);
+  public boolean hasLong() {
+    return has(Long.class);
   }
   
-  public boolean isBoolean() {
-    return is(Boolean.class);
+  public boolean hasBoolean() {
+    return has(Boolean.class);
   }
   
-  private boolean is(Class<?> clazz) {
+  private boolean has(Class<?> clazz) {
     return hasValue() && mValue.getClass() == clazz;
   }
   
