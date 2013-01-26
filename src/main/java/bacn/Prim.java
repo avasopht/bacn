@@ -1,4 +1,4 @@
-package kbacon;
+package bacn;
 
 public class Prim<T> {
   public Prim<T> setTo(T value) { mValue = value; return this; }

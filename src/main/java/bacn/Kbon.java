@@ -1,4 +1,4 @@
-package kbacon;
+package bacn;
 
 public abstract class Kbon {
   protected <T extends Kbon> T member (Class<T> clazz, String key) {

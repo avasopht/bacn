@@ -1,4 +1,4 @@
-package kbacon;
+package bacn;
 
 public interface IntegrationTest {
 

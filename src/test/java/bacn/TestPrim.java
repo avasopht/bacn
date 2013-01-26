@@ -1,7 +1,10 @@
-package kbacon;
+package bacn;
+
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import bacn.Prim;
 
 public class TestPrim {
   
