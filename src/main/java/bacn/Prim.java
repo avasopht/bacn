@@ -1,6 +1,6 @@
 package bacn;
 
-public class Prim<T> {
+public class Prim<T extends Comparable<T>> implements Comparable<Prim<T>>{
   public Prim<T> setTo(T value) { mValue = value; return this; }
   public T get() { return mValue; }
   
@@ -95,7 +95,34 @@ public class Prim<T> {
   
   private T mValue;
 
-  public static <T> Prim<T> create(T value) {
+  public static <T extends Comparable<T>> Prim<T> create(T value) {
     return new Prim<T>(value);
   }
+  
+  @Override
+  public int compareTo(Prim<T> rhs) {
+    if(eitherValueIsNull(this, rhs)) {
+      return calculateNullValueComparison(this, rhs);
+    }
+    
+    if(eitherValueIsNull(get(), rhs.get())) {
+      return calculateNullValueComparison(get(), rhs.get());
+    }
+    
+    return get().compareTo(rhs.get());
+  }
+  
+  public static <T extends Comparable<T>> boolean eitherValueIsNull(T first, T second) {
+    return first == null || second == null;
+  }
+  
+  private static <T extends Comparable<T>> int calculateNullValueComparison(T lhs, T rhs) {
+    return calculateNullComparisonValue(lhs) - calculateNullComparisonValue(rhs);
+  }
+  
+  private static int calculateNullComparisonValue(Object o) {
+    return o == null ? -1 : 1;
+  }
+  
+  
 }
