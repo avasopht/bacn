@@ -12,4 +12,14 @@ public interface Bcon {
 
   public Collection<String> getPrimitiveKeys();
 
+  public Value<?> getMemberValue(String valueKey);
+  
+  public Prim getPrimitive(String primitiveKey);
+
+  public boolean hasMembers();
+
+  public boolean hasAncestors();
+
+  public boolean hasPrimitives();
+
 }

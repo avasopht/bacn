@@ -26,6 +26,33 @@ public class Value<T extends Bcon> {
     return mValue != null;
   }
   
+  @Override
+  public boolean equals(Object rhsObject) {
+    if(this == rhsObject) {
+      return true;
+    }
+    
+    if(rhsObject == null || getClass() != rhsObject.getClass()) {
+      return false;
+    }
+    
+    Value<?> rhs = (Value<?>) rhsObject;
+    boolean weHoldDifferentNullValues = isNull() != rhs.isNull();
+    if(weHoldDifferentNullValues) {
+      return false;
+    }
+    
+    boolean weBothHoldNullValues = isNull() && rhs.isNull();
+    if(weBothHoldNullValues) {
+      return true;
+    }
+    
+    assert(notNull());
+    assert(rhs.notNull());
+    
+    return get().equals(rhs.get());
+  }
+  
   /**
    * Returns the string representation of the type.
    * @return

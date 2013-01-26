@@ -1,12 +1,22 @@
 package bacn;
 
-public class Prim<T extends Comparable<T>> implements Comparable<Prim<T>>{
-  public Prim<T> setTo(T value) { mValue = value; return this; }
-  public T get() { return mValue; }
+public class Prim implements Comparable<Prim>{
+  public <T extends Comparable<T>> Prim setTo(Object value) { mValue = value; return this; }
+  public Object get() { return mValue; }
+  
+  private enum ValueType {
+    INVALID,
+    NULL,
+    STRING,
+    INTEGER,
+    FLOAT,
+    DOUBLE,
+    LONG
+  }
   
   public Prim() {}
   
-  public Prim(T value) {
+  public Prim(Object value) {
     mValue = value;
   }
   
@@ -27,6 +37,30 @@ public class Prim<T extends Comparable<T>> implements Comparable<Prim<T>>{
     }
     
     return null;
+  }
+  
+  private ValueType getValueType() {
+    if(hasString()) {
+      return ValueType.STRING;
+    }
+    
+    if(hasInteger()) {
+      return ValueType.INTEGER;
+    }
+    
+    if(hasLong()) {
+      return ValueType.LONG;
+    }
+    
+    if(hasFloat()) {
+      return ValueType.FLOAT;
+    }
+    
+    if(hasDouble()) {
+      return ValueType.DOUBLE;
+    }
+    
+    return ValueType.INVALID;
   }
   
   public Long asLong() {
@@ -61,6 +95,17 @@ public class Prim<T extends Comparable<T>> implements Comparable<Prim<T>>{
     return null;
   }
   
+  @Override
+  public boolean equals(Object o) {
+    if(o == null || o.getClass() != this.getClass()) {
+      return false;
+    }
+    
+    Prim rhs = (Prim)o;
+    return compareTo(rhs) == 0;
+    
+  }
+  
   public boolean hasValue() {
     return mValue != null;
   }
@@ -93,14 +138,24 @@ public class Prim<T extends Comparable<T>> implements Comparable<Prim<T>>{
     return hasValue() && mValue.getClass() == clazz;
   }
   
-  private T mValue;
+  private Object mValue;
+  
+  
 
-  public static <T extends Comparable<T>> Prim<T> create(T value) {
-    return new Prim<T>(value);
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((mValue == null) ? 0 : mValue.hashCode());
+    return result;
+  }
+  
+  public static <T extends Comparable<T>> Prim create(T value) {
+    return new Prim(value);
   }
   
   @Override
-  public int compareTo(Prim<T> rhs) {
+  public int compareTo(Prim rhs) {
     if(eitherValueIsNull(this, rhs)) {
       return calculateNullValueComparison(this, rhs);
     }
@@ -108,15 +163,48 @@ public class Prim<T extends Comparable<T>> implements Comparable<Prim<T>>{
     if(eitherValueIsNull(get(), rhs.get())) {
       return calculateNullValueComparison(get(), rhs.get());
     }
+
+    boolean haveDifferentValueType = getValueType() != rhs.getValueType();
+    if(haveDifferentValueType) {
+      assert(false);
+      return 0;
+    }
     
-    return get().compareTo(rhs.get());
+    return compareTo(this, rhs, getValueType());
   }
   
-  public static <T extends Comparable<T>> boolean eitherValueIsNull(T first, T second) {
+  
+  private int compareTo(Prim lhs, Prim rhs, ValueType valueType) {
+    assert(lhs.getValueType() == rhs.getValueType());
+    
+    switch(valueType) {
+      case DOUBLE:
+        return new Double(lhs.asDouble()).compareTo(new Double(rhs.asDouble()));
+      case FLOAT:
+        return new Float(lhs.asFloat()).compareTo(new Float(rhs.asFloat()));
+      case INTEGER:
+        return new Integer(lhs.asInteger()).compareTo(new Integer(rhs.asInteger()));
+      case INVALID:
+        // Should not reach here, assert would have already been thrown with upon entry to this function.
+        return 0;
+      case LONG:
+        return new Long(lhs.asLong()).compareTo(new Long(rhs.asLong()));
+      case NULL:
+        return calculateNullValueComparison(lhs.isNull(), rhs.isNull());
+      case STRING:
+        return new String(lhs.asString()).compareTo(rhs.asString());
+      default:
+        // Another code path that should not have been reached.
+        return 0;
+      
+    }
+  }
+  
+  public static boolean eitherValueIsNull(Object first, Object second) {
     return first == null || second == null;
   }
   
-  private static <T extends Comparable<T>> int calculateNullValueComparison(T lhs, T rhs) {
+  private static  int calculateNullValueComparison(Object lhs, Object rhs) {
     return calculateNullComparisonValue(lhs) - calculateNullComparisonValue(rhs);
   }
   
