@@ -124,5 +124,14 @@ public class Prim<T extends Comparable<T>> implements Comparable<Prim<T>>{
     return o == null ? -1 : 1;
   }
   
+  @Override
+  public String toString() {
+    if(isNull()) {
+      return "*null*";
+    }
+    
+    return mValue.toString();
+  }
+  
   
 }

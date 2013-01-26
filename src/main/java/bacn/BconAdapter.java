@@ -13,7 +13,7 @@ public abstract class BconAdapter implements Bcon {
    */
   final protected <T extends Bcon> Value<T> member (Class<T> clazz, String key) {
     Value<T> value = Value.create(clazz);
-    mValues.put(key, value);
+    mMembers.put(key, value);
     return value;
   }
   
@@ -22,7 +22,7 @@ public abstract class BconAdapter implements Bcon {
    * @param key
    * @return
    */
-  final protected <T extends Comparable<T>> Prim<T> member(String key) {
+  protected final <T extends Comparable<T>> Prim<T> member (String key) {
     Prim<T> primitive = new Prim<T>();
     mPrimitives.put(key, primitive);
     return primitive;
@@ -34,34 +34,34 @@ public abstract class BconAdapter implements Bcon {
    * @param key
    * @return
    */
-  final protected <T extends Bcon> Value<T> extension (Class<T> clazz) {
-    Value<T> value = Value.create(clazz);
-    mExtensions.put(clazz.getCanonicalName(), value);
+  protected final <T extends Bcon> Value<T> ancestor (Class<T> clazz, T t) {
+    Value<T> value = Value.create(clazz).setTo(t);
+    mAncestors.put(clazz.getCanonicalName(), value);
     return value;
   }
   
   /* (non-Javadoc)
-   * @see bacn.Bcon#getExtension(java.lang.String)
+   * @see bacn.Bcon#getAncestor(java.lang.String)
    */
   @Override
-  final public Value<?> getExtension(String key) {
-    return mExtensions.get(key);
+  final public Value<?> getAncestor(String key) {
+    return mAncestors.get(key);
   }
   
   /* (non-Javadoc)
-   * @see bacn.Bcon#getExtensionKeys()
+   * @see bacn.Bcon#getAncestorKeys()
    */
   @Override
-  final public Collection<String> getExtensionKeys() {
-    return mExtensions.keySet();
+  final public Collection<String> getAncestorKeys() {
+    return mAncestors.keySet();
   }
   
   /* (non-Javadoc)
-   * @see bacn.Bcon#getValueKeys()
+   * @see bacn.Bcon#getMemberKeys()
    */
   @Override
-  final public Collection<String> getValueKeys() {
-    return mValues.keySet();
+  final public Collection<String> getMemberKeys() {
+    return mMembers.keySet();
   }
   
   /* (non-Javadoc)
@@ -72,7 +72,19 @@ public abstract class BconAdapter implements Bcon {
     return mPrimitives.keySet();
   }
   
-  private Map<String,Value<? extends Bcon>> mExtensions = new TreeMap<String,Value<? extends Bcon>>();
-  private Map<String,Value<? extends Bcon>> mValues = new TreeMap<String,Value<? extends Bcon>>();
+  public boolean hasPrimitives() {
+    return !mPrimitives.isEmpty();
+  }
+  
+  public boolean hasAncestors() {
+    return !mAncestors.isEmpty();
+  }
+  
+  public boolean hasMembers() {
+    return !mMembers.isEmpty();
+  }
+  
+  private Map<String,Value<? extends Bcon>> mAncestors = new TreeMap<String,Value<? extends Bcon>>();
+  private Map<String,Value<? extends Bcon>> mMembers = new TreeMap<String,Value<? extends Bcon>>();
   private Map<String,Prim<?>> mPrimitives = new TreeMap<String, Prim<?>>();
 }

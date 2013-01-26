@@ -4,11 +4,11 @@ import java.util.Collection;
 
 public interface Bcon {
 
-  public Value<?> getExtension(String key);
+  public Value<?> getAncestor(String key);
 
-  public Collection<String> getExtensionKeys();
+  public Collection<String> getAncestorKeys();
 
-  public Collection<String> getValueKeys();
+  public Collection<String> getMemberKeys();
 
   public Collection<String> getPrimitiveKeys();
 
