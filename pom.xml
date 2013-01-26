@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.avasopht</groupId>
-  <artifactId>kbacon</artifactId>
+  <artifactId>bacn</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>KBacon object notation library for Java</name>
+  <name>Bac'n object notation library for Java</name>
   <description>GWT friendly object notation library for Java.</description>
   
   
@@ -87,7 +87,7 @@
 					<includes>
 						<include>**/*.class</include>
 					</includes>
-					<excludedGroups>kbacon.IntegrationTest</excludedGroups>
+					<excludedGroups>bacn.IntegrationTest</excludedGroups>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -101,7 +101,7 @@
 					</dependency>
 				</dependencies>
 				<configuration>
-					<groups>kbacon.IntegrationTest</groups>
+					<groups>bacn.IntegrationTest</groups>
 				</configuration>
 				<executions>
 					<execution>
