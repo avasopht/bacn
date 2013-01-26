@@ -7,7 +7,7 @@ public class Value<T extends Bcon> {
   }
   
   public static <T extends Bcon> Value<T> create(Class<T> clazz) {
-    String typeName = clazz.getCanonicalName();
+    String typeName = clazz.getName();
     if(typeName != null) {
       return new Value<T>(typeName);
     }

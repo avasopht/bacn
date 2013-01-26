@@ -36,7 +36,7 @@ public abstract class BconAdapter implements Bcon {
    */
   protected final <T extends Bcon> Value<T> ancestor (Class<T> clazz, T t) {
     Value<T> value = Value.create(clazz).setTo(t);
-    mKeysToAncestors.put(clazz.getCanonicalName(), value);
+    mKeysToAncestors.put(clazz.getName(), value);
     return value;
   }
   
