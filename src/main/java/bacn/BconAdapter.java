@@ -96,7 +96,7 @@ public abstract class BconAdapter implements Bcon {
     }
     
     if(o == this) {
-      return false;
+      return true;
     }
     
     try {
@@ -176,6 +176,7 @@ public abstract class BconAdapter implements Bcon {
     for(String primitiveKey: getPrimitiveKeys()) {
       Prim myPrim = getPrimitive(primitiveKey);
       Prim rhsPrim = rhs.getPrimitive(primitiveKey);
+      
       boolean primitivesAreDifferent = !myPrim.equals(rhsPrim);
       if(primitivesAreDifferent) {
         return false;

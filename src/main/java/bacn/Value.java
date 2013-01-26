@@ -8,6 +8,8 @@ public class Value<T extends Bcon> {
   
   public static <T extends Bcon> Value<T> create(Class<T> clazz) {
     String typeName = clazz.getName();
+    assert(typeName != null) : "Typename is null";
+    
     if(typeName != null) {
       return new Value<T>(typeName);
     }

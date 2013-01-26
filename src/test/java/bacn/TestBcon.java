@@ -70,5 +70,9 @@ public class TestBcon {
         new UserLeftRoom.Impl().setUserId(firstUser));
     Assert.assertFalse(new UserLeftRoom.Impl().setUserId(firstUser).equals(
         new UserLeftRoom.Impl().setUserId(secondUser)));
+    
+    // Check for equality when referencing the same object.
+    UserLeftRoom.Impl instance = new UserLeftRoom.Impl();
+    Assert.assertEquals(instance, instance);
   }
 }
