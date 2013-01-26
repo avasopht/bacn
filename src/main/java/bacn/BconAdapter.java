@@ -176,7 +176,6 @@ public abstract class BconAdapter implements Bcon {
     for(String primitiveKey: getPrimitiveKeys()) {
       Prim myPrim = getPrimitive(primitiveKey);
       Prim rhsPrim = rhs.getPrimitive(primitiveKey);
-      System.out.println(myPrim + " --- " + rhsPrim);
       boolean primitivesAreDifferent = !myPrim.equals(rhsPrim);
       if(primitivesAreDifferent) {
         return false;
